@@ -14,7 +14,7 @@ const bookSchema = new Schema({
   // saved book id from GoogleBooks
   bookId: {
     type: String,
-    required: true,
+    required: true
   },
   image: {
     type: String,
@@ -26,6 +26,7 @@ const bookSchema = new Schema({
     type: String,
     required: true,
   },
+  _id: false
 });
 
 module.exports = bookSchema;
