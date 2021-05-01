@@ -7,13 +7,18 @@ const { authMiddleware } = require('./utils/auth');
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 
+const GoogleBookAPI = require('./src/datasources/book');
+ 
 const PORT = process.env.PORT || 3001;
 const app = express();
 // create a new Apollo server and pass in our schema data
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: authMiddleware
+  context: authMiddleware,
+  dataSources: () => ({
+    googleBookAPI: new GoogleBookAPI()
+  })
 });
 
 const path = require('path');

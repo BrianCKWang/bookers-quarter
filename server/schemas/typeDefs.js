@@ -31,8 +31,13 @@ const typeDefs = gql`
     title: String
   }
 
+  type googleBookResponse{
+    value: Book
+  }
+
   type Query {
     me: User
+    book: [Book]!
   }
 
   type Mutation {

@@ -13,7 +13,9 @@ const resolvers = {
       }
     
       throw new AuthenticationError('Not logged in');
-    }
+    },
+    book: async (_, __, { dataSources }) =>
+      dataSources.googleBookAPI.getBook(),
   },
   Mutation: {
     addUser: async (parent, args) => {
