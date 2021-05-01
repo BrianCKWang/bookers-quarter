@@ -19,14 +19,13 @@ class GoogleBookAPI extends RESTDataSource {
     };
   }
 
-  async getBook() {
+  async getBook(query) {
     // Send a GET request to the specified endpoint
     // return this.get(`volumes?q=${query}`);
     // return this.get(`volumes?q=martian`);
-    const response = await this.get(`volumes?q=martian`);
-
-      // console.log(response)
-
+    const response = await this.get(`volumes?q=${query}`);
+    // console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    // console.log(query);
     return Array.isArray(response.items)
       ? response.items.map(book => this.bookReducer(book))
       : [];

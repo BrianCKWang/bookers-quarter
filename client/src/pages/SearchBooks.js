@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+// import { useLazyQuery } from "@apollo/client";
+import { GET_BOOK } from '../utils/queries';
 import { SAVE_BOOK } from '../utils/mutations';
 
 // import { saveBook, searchGoogleBooks } from '../utils/API';
@@ -17,41 +20,40 @@ const SearchBooks = () => {
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
+  const {data, loading}  = useQuery(GET_BOOK,{
+    variables: {query: searchInput}
+  });
+
+
+  // useEffect(() => {
+  //   // console.log(data?.book);
+  //   setSearchedBooks(data?.book);
+  //   setSearchInput('');
+  // }, [data]);
+  
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
-  useEffect(() => {
-    return () => saveBookIds(savedBookIds);
-  });
+  // useEffect(() => {
+  //   return () => saveBookIds(savedBookIds);
+  // });
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    // if (!searchInput) {
-    //   return false;
-    // }
-
-    // try {
-    //   const response =  bookAPI.getBook(searchInput);
-
-    //   if (!response.ok) {
-    //     throw new Error('something went wrong!');
-    //   }
-
-    //   const { items } = await response.json();
-
-    //   const bookData = items.map((book) => ({
-    //     bookId: book.id,
-    //     authors: book.volumeInfo.authors || ['No author to display'],
-    //     title: book.volumeInfo.title,
-    //     description: book.volumeInfo.description,
-    //     image: book.volumeInfo.imageLinks?.thumbnail || '',
-    //   }));
-
-    //   setSearchedBooks(bookData);
-    //   setSearchInput('');
-    // } catch (err) {
-    //   console.error(err);
-    // }
+        
+    if (!searchInput) {
+      return false;
+    }
+    
+    try {
+    
+      // search();
+      
+      setSearchedBooks(data.book);
+      // console.log(data.book);
+    } catch (err) {
+      console.error(err);
+    }
 
     setSearchInput('');
   };
@@ -100,7 +102,7 @@ const SearchBooks = () => {
                 />
               </Col>
               <Col xs={12} md={4}>
-                <Button type='submit' variant='success' size='lg'>
+                <Button type= "submit" variant='success' size='lg' >
                   Submit Search
                 </Button>
               </Col>
@@ -111,12 +113,12 @@ const SearchBooks = () => {
 
       <Container>
         <h2>
-          {searchedBooks.length
+          { searchedBooks.length
             ? `Viewing ${searchedBooks.length} results:`
             : 'Search for a book to begin'}
         </h2>
         <CardColumns>
-          {searchedBooks.map((book) => {
+          { searchedBooks.map((book) => {
             return (
               <Card key={book.bookId} border='dark'>
                 {book.image ? (

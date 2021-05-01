@@ -14,8 +14,11 @@ const resolvers = {
     
       throw new AuthenticationError('Not logged in');
     },
-    book: async (_, __, { dataSources }) =>
-      dataSources.googleBookAPI.getBook(),
+    book: async (_, {query}, { dataSources }) =>{
+
+      return dataSources.googleBookAPI.getBook(query);
+    }
+      ,
   },
   Mutation: {
     addUser: async (parent, args) => {
