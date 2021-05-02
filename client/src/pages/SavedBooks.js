@@ -11,7 +11,6 @@ import { removeBookId } from '../utils/localStorage';
 const SavedBooks = () => {
   const [userData, setUserData] = useState({});
 
-
   const [removeBook] = useMutation(REMOVE_BOOK,{
     update(cache, { data: { removeBook } }) {
       cache.writeQuery({
@@ -22,17 +21,16 @@ const SavedBooks = () => {
     }
   });
 
-  const {data, loading, error }  = useQuery(GET_ME,{
+  const { data, loading, error }  = useQuery(GET_ME,{
     update(cache, { data: { me } }) {
       setUserData(me);
     },
-    pollInterval: 200,
+    pollInterval: 500,
   });
 
   
   // use this to determine if `useEffect()` hook needs to run again
 
-  // let {me} = data?data:{me:{}};
   const userDataLength = Object.keys(data?data.me:{me:{}}).length;
 
   useEffect(() => {
@@ -51,7 +49,6 @@ const SavedBooks = () => {
             if(isMounted){
               setUserData(data?data.me:{me:{}});
             }
-            
           }
 
         } catch (err) {
@@ -75,11 +72,9 @@ const SavedBooks = () => {
     }
 
     try {
-
       await removeBook({
         variables: { bookId }
       });
-
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {

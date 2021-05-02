@@ -15,7 +15,6 @@ const SearchBooks = () => {
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
-
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
@@ -26,7 +25,11 @@ const SearchBooks = () => {
   useEffect(() => {
     let isMounted = true;
     if (isMounted) {
-      saveBookIds(savedBookIds)
+      try {
+        saveBookIds(savedBookIds)
+      } catch (err) {
+        console.error(err);
+      }
     }
     return () => { isMounted = false };
   });
@@ -51,10 +54,7 @@ const SearchBooks = () => {
       const { items } = await response.json();
 
       const bookData = items.map((book) =>{ 
-
-    
-
-        return ({
+       return ({
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
         title: book.volumeInfo.title,
