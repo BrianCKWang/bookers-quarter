@@ -8,6 +8,7 @@ import { SAVE_BOOK } from '../utils/mutations';
 
 import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import { httpToHttps } from '../utils/helpers';
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -49,14 +50,18 @@ const SearchBooks = () => {
       
       const { items } = await response.json();
 
-      const bookData = items.map((book) => ({
+      const bookData = items.map((book) =>{ 
+        // console.log(book.volumeInfo.infoLink);
+        console.log(httpToHttps(book.volumeInfo.infoLink));
+        
+        return ({
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
         image: book.volumeInfo.imageLinks?.thumbnail || '',
-        link: book.volumeInfo.infoLink || ''
-      }));
+        link: httpToHttps(book.volumeInfo.infoLink) || ''
+      })});
 
       setSearchedBooks(bookData);
       setSearchInput('');
