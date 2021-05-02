@@ -51,8 +51,6 @@ const SearchBooks = () => {
       const { items } = await response.json();
 
       const bookData = items.map((book) =>{ 
-        // console.log(book.volumeInfo.infoLink);
-        console.log(httpToHttps(book.volumeInfo.infoLink));
         
         return ({
         bookId: book.id,
