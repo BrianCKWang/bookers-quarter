@@ -9,11 +9,6 @@ import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
-  const token = Auth.loggedIn() ? Auth.getToken() : null;
-  
-  if (!token) {
-    window.location.assign('/');
-  }
 
   const [userData, setUserData] = useState({});
 
@@ -93,6 +88,11 @@ const SavedBooks = () => {
     return <h2>LOADING...</h2>;
   }
 
+  if (!Auth.loggedIn()) {
+    window.location.assign('/');
+    return <h2>Not logged in. Redirecting...</h2>;
+  }
+  
   return (
     <>
       <Jumbotron fluid className='text-light bg-dark'>
