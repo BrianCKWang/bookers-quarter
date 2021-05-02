@@ -9,6 +9,12 @@ import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
+  const token = Auth.loggedIn() ? Auth.getToken() : null;
+  
+  if (!token) {
+    window.location.assign('/');
+  }
+
   const [userData, setUserData] = useState({});
 
   const [removeBook] = useMutation(REMOVE_BOOK,{
@@ -25,7 +31,7 @@ const SavedBooks = () => {
     update(cache, { data: { me } }) {
       setUserData(me);
     },
-    pollInterval: 500,
+    pollInterval: 1000,
   });
 
   
