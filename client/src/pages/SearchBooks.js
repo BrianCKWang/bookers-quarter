@@ -52,12 +52,14 @@ const SearchBooks = () => {
 
       const bookData = items.map((book) =>{ 
 
+    
+
         return ({
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
-        image: book.volumeInfo.imageLinks? httpToHttps(book.volumeInfo.imageLinks?.thumbnail) : '',
+        image: book.volumeInfo.imageLinks ? httpToHttps(book.volumeInfo.imageLinks?.thumbnail) : '',
         link: book.volumeInfo.infoLink ? httpToHttps(book.volumeInfo.infoLink) : ''
       })});
 
