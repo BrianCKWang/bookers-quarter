@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { ADD_USER } from '../utils/mutations';
 
 import Auth from '../utils/auth';
+import { saveEmail } from '../utils/localStorage';
 
 const SignupForm = () => {
   // set initial form state
@@ -37,6 +38,7 @@ const SignupForm = () => {
         variables: { ...userFormData }
       });
       Auth.login(data.addUser.token);
+      saveEmail(userFormData.email);
     } catch (e) {
       setShowAlert(true);
       console.error(e);

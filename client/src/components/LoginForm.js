@@ -6,6 +6,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { LOGIN_USER } from '../utils/mutations';
 
 import Auth from '../utils/auth';
+import { saveEmail } from '../utils/localStorage';
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
@@ -35,6 +36,8 @@ const LoginForm = () => {
       });
 
       Auth.login(data.login.token);
+      console.log(userFormData.email);
+      saveEmail(userFormData.email);
 
       setUserFormData({
         username: '',
